@@ -1,0 +1,283 @@
+.TH RAZ 23 "November 2025" "Raz Library 1.0" "C++ Library Manual"
+.SH NAME
+raz \- Lightweight C++ standard library alternative
+.SH SYNOPSIS
+.nf
+.B #include "raz.hpp"
+.fi
+.SH DESCRIPTION
+.B raz
+is a header-only C++ standard library alternative with zero dependencies. 
+It provides containers, algorithms, I/O operations, and utilities for C++ programming.
+.SH BASIC TYPES
+.SS Type Aliases
+.TS
+l l.
+i8, i16, i32, i64	Signed integers
+u8, u16, u32, u64	Unsigned integers
+f32, f64	Floating point numbers
+byte	Byte type
+.TE
+.SS Example
+.nf
+raz::i32 age = 25;
+raz::f64 price = 19.99;
+raz::u32 count = 100;
+.fi
+.SH STRING CLASS
+.SS Creation
+.nf
+raz::string str1;                    // Empty
+raz::string str2 = "Hello";          // From C-string
+raz::string str3 = str2;             // Copy
+.fi
+.SS Operations
+.TS
+l l.
+push_back(c)	Add character
+append(str)	Append string
+operator+=	Concatenation
+length()	Get length
+c_str()	Get C-string
+clear()	Clear string
+.TE
+.SS String Manipulation
+.nf
+raz::string text = "Hello World";
+raz::string sub = text.substr(6, 5);     // "World"
+bool starts = text.starts_with("Hello"); // true
+bool ends = text.ends_with("World");     // true
+if(text == "Hello World") { ... }
+if(text.compare("Hello") != 0) { ... }
+.fi
+.SH VECTOR CLASS
+.SS Creation
+.nf
+raz::vector<raz::i32> numbers;
+raz::vector<raz::string> names(10);
+raz::vector<raz::i32> values = {1, 2, 3};
+.fi
+.SS Operations
+.TS
+l l.
+push_back(value)	Add element
+pop_back()	Remove last element
+operator[]	Access element
+size()	Get size
+empty()	Check if empty
+clear()	Clear vector
+.TE
+.SS Iteration
+.nf
+// Index-based
+for(raz::u32 i = 0; i < vec.size(); i++) {
+    raz::cout << vec[i];
+}
+
+// Range-based (macro)
+foreach(item, vec) {
+    raz::cout << item;
+}
+.fi
+.SH MAP CLASS
+.SS Operations
+.nf
+raz::map<raz::string, raz::i32> ages;
+ages.insert("Alice", 25);           // Insert
+auto age = ages.get("Alice");       // Retrieve
+if(age.is_present()) {
+    raz::cout << age.get();
+}
+ages.contains("Bob");               // Check existence
+ages.erase("Charlie");              // Remove
+ages.size();                        // Get size
+.fi
+.SH ARRAY CLASS
+.SS Fixed-size Array
+.nf
+raz::array<raz::i32, 5> fixed;
+raz::array<raz::string> names = {"A", "B", "C"};
+fixed[0] = 10;                      // Access
+raz::u32 size = fixed.size();       // Get size
+.fi
+.SH OPTIONAL CLASS
+.SS Handling Optional Values
+.nf
+raz::optional<raz::i32> maybe_num;
+if(!maybe_num.is_present()) { ... } // Check
+maybe_num = raz::optional<raz::i32>(42); // Set
+raz::i32 val = maybe_num.get();     // Get (if present)
+raz::i32 def = maybe_num.value_or(100); // Get or default
+.fi
+.SH PAIR STRUCT
+.SS Two-element Tuple
+.nf
+raz::pair<raz::string, raz::i32> person;
+person = raz::make_pair("Alice", 25);
+raz::string name = person.first;
+raz::i32 age = person.second;
+.fi
+.SH INPUT/OUTPUT SYSTEM
+.SS Output
+.nf
+raz::cout << "Hello" << raz::endl;
+raz::print("No newline");
+raz::println("With newline");
+raz::cout << age << height << is_student;
+.fi
+.SS Input
+.nf
+raz::string name = raz::input("Name: ");
+raz::i32 age = raz::input_as<raz::i32>("Age: ");
+raz::f64 height = raz::input_as<raz::f64>("Height: ");
+raz::cin >> variable;               // Direct input
+raz::cin.getline(str);              // Line input
+.fi
+.SH ALGORITHMS
+.SS Sorting and Searching
+.nf
+raz::i32 arr[] = {5, 2, 8, 1, 9};
+raz::sort(arr, 5);                  // Sort array
+raz::i32 idx = raz::find(arr, 5, 8); // Search
+raz::swap(a, b);                    // Swap values
+.fi
+.SH MATHEMATICS
+.SS Math Functions
+.nf
+raz::i32 pos = raz::abs(-5);        // Absolute value
+raz::f64 pwr = raz::pow(2.0, 3);    // Power
+raz::i32 sml = raz::min(10, 5);     // Minimum
+raz::i32 lrg = raz::max(10, 5);     // Maximum
+.fi
+.SH RANDOM NUMBER GENERATION
+.SS Random Operations
+.nf
+raz::random rng;
+raz::u32 num = rng.next();          // Basic random
+raz::u32 dice = rng.range(1, 6);    // Range random
+raz::f64 flt = rng.float_range(0.0, 1.0); // Float random
+.fi
+.SH CONTAINERS
+.SS Queue (FIFO)
+.nf
+raz::queue<raz::i32> q;
+q.push(10);                         // Enqueue
+raz::i32 front = q.front();         // Front element
+q.pop();                            // Dequeue
+.fi
+.SS Stack (LIFO)
+.nf
+raz::stack<raz::i32> s;
+s.push(10);                         // Push
+raz::i32 top = s.top();             // Top element
+s.pop();                            // Pop
+.fi
+.SH UTILITY FUNCTIONS
+.SS String Utilities
+.nf
+raz::u32 len = raz::strlen_simple(str);
+raz::strcpy_simple(dest, src);
+raz::i32 cmp = raz::strcmp_simple(a, b);
+raz::u32 hash = raz::hash_simple(str);
+.fi
+.SH MACROS
+.SS Convenience Macros
+.nf
+let number = 42;                    // Type inference
+var name = raz::string("John");
+loop { ... }                        // Infinite loop
+repeat(5) { ... }                   // Repeat N times
+foreach(item, container) { ... }    // Range loop
+.fi
+.SH COMPILATION
+.SS Basic Compilation
+.nf
+.B g++ -o program program.cpp
+.B ./program
+.fi
+.SS With Optimization
+.nf
+.B g++ -O2 -o program program.cpp
+.B ./program
+.fi
+.SH EXAMPLE PROGRAMS
+.SS Simple Calculator
+.nf
+#include "raz.hpp"
+
+int main() {
+    raz::f64 num1 = raz::input_as<raz::f64>("First number: ");
+    raz::f64 num2 = raz::input_as<raz::f64>("Second number: ");
+    
+    raz::cout << "Sum: " << num1 + num2 << raz::endl;
+    raz::cout << "Multiplication: " << num1 * num2 << raz::endl;
+    
+    return 0;
+}
+.fi
+.SS Todo List
+.nf
+#include "raz.hpp"
+
+int main() {
+    raz::vector<raz::string> tasks;
+    
+    while(true) {
+        raz::string option = raz::input("1. Add 2. View 3. Exit: ");
+        
+        if(option == "1") {
+            raz::string task = raz::input("Task: ");
+            tasks.push_back(task);
+        }
+        else if(option == "2") {
+            foreach(task, tasks) {
+                raz::cout << "- " << task << raz::endl;
+            }
+        }
+        else if(option == "3") break;
+    }
+    return 0;
+}
+.fi
+.SS Number Guessing Game
+.nf
+#include "raz.hpp"
+
+int main() {
+    raz::random rng;
+    raz::i32 secret = rng.range(1, 100);
+    raz::i32 attempts = 0;
+    
+    while(true) {
+        raz::i32 guess = raz::input_as<raz::i32>("Guess: ");
+        attempts++;
+        
+        if(guess == secret) {
+            raz::cout << "Correct! Attempts: " << attempts << raz::endl;
+            break;
+        }
+        else if(guess < secret) raz::println("Higher...");
+        else raz::println("Lower...");
+    }
+    return 0;
+}
+.fi
+.SH FEATURES
+.TS
+l l.
+Zero Dependencies	Only requires C++ compiler
+Header-Only	Single include file
+Memory Safe	Automatic memory management
+Type Safe	Strong typing throughout
+Portable	Works on any platform
+STL-Compatible	Familiar interface
+.TE
+.SH SEE ALSO
+.BR g++ (1),
+.BR stdlib (3)
+.SH LICENSE
+GPL-3.0
+.SH AUTHOR
+NopAngel
+.SH BUGS
+No known bugs. Report issues to the repository maintainer.
